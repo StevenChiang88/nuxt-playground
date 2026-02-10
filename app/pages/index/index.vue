@@ -1,16 +1,25 @@
 <template>
   <div>HOME PAGE</div>
+  <div>
+    <p>姓名: {{ myData.name }}</p>
+    <p>信箱: {{ myData.email }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { getMe, getAllUsers } from "../../api/user/inedx";
+import { getMe } from "../../api/user/inedx";
 import { onMounted, ref } from "vue";
+import type { UserItem } from "~/api/user/model";
+
+const myData = ref<UserItem>({
+  id: "",
+  name: "",
+  email: "",
+});
 
 onMounted(async () => {
   const response = await getMe();
-  console.log(response);
-  const responseAll = await getAllUsers();
-  console.log(responseAll);
+  myData.value = response.data.user;
 });
 </script>
 

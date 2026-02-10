@@ -28,9 +28,13 @@ export const useCustomFetch = () => {
       options.headers = headers;
     },
     onResponseError({ response }) {
+      console.log(response);
       if (response?.status === 401) {
         navigateTo("/auth");
       }
+    },
+    onResponse({ response }) {
+      console.log(response);
     },
   });
 

@@ -19,8 +19,12 @@ export type RegisterResponse = DefaultResponse<{
   token: string;
 }>;
 
-export type UserResponse = DefaultResponse<{
+export type UserItem = {
   id: string;
   name: string;
   email: string;
+};
+
+export type UserResponse = DefaultResponse<{
+  user: UserItem;
 }>;

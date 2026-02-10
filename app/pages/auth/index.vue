@@ -82,8 +82,9 @@ const onSubmit = handleSubmit(async (values) => {
       password: values.password,
     };
     const response = await login(payload);
-
-    console.log(response);
+    if (response.status === 200) {
+      navigateTo("/");
+    }
     return;
   }
 
