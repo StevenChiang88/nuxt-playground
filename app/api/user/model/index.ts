@@ -28,3 +28,7 @@ export type UserItem = {
 export type UserResponse = DefaultResponse<{
   user: UserItem;
 }>;
+
+export type allUsersResponse = DefaultResponse<{
+  users: UserItem[];
+}>;

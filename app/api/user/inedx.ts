@@ -1,4 +1,4 @@
-import type { UserResponse } from "./model";
+import type { UserResponse, allUsersResponse } from "./model";
 import { useCustomFetch } from "~/composables/useCustomFetch";
 
 const routes = {
@@ -12,6 +12,6 @@ export const getMe = async () => {
 };
 
 export const getAllUsers = async () => {
-  const response = await useCustomFetch().get<UserResponse>(routes.all);
+  const response = await useCustomFetch().get<allUsersResponse>(routes.all);
   return response;
 };
