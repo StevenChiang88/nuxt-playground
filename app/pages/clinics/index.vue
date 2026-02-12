@@ -61,6 +61,15 @@
         <input id="phone" v-model="phone" type="text" />
       </div>
       <p class="text-sm text-red-600">{{ phoneError }}</p>
+
+      <div class="flex gap-2 items-center">
+        <label for="doctor_ids">Doctors</label>
+        <select id="doctor_ids" v-model="doctor_ids" multiple>
+          <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">
+            {{ doctor.name }}
+          </option>
+        </select>
+      </div>
     </form>
   </Modal>
 </template>
@@ -68,7 +77,7 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { useField, useForm } from "vee-validate";
-import { object, string } from "yup";
+import { array, object, string } from "yup";
 import { onMounted, ref } from "vue";
 import type { ClinicItem } from "~/api/clinic/model";
 import {
@@ -78,7 +87,10 @@ import {
   deleteClinic,
 } from "~/api/clinic/inedx";
 import type { storeClinicRequest } from "~/api/clinic/model";
+import { getAllDoctors } from "~/api/doctor/inedx";
+import type { DoctorItem } from "~/api/doctor/model";
 
+const doctors = ref<DoctorItem[]>([]);
 const modalMode = ref<"create" | "edit">("create");
 const clinicId = ref<string | null>(null);
 const open = ref(false);
@@ -87,6 +99,7 @@ const validationSchema = object({
   name: string().required().min(5).max(255),
   address: string().required().min(10).max(255),
   phone: string().required().min(10).max(255),
+  doctor_ids: array().of(string()).required(),
 });
 
 const { validate, resetForm } = useForm<storeClinicRequest>({
@@ -95,6 +108,7 @@ const { validate, resetForm } = useForm<storeClinicRequest>({
     name: "",
     address: "",
     phone: "",
+    doctor_ids: [],
   },
 });
 
@@ -131,6 +145,12 @@ const {
   setValue: setPhone,
 } = useField<string>("phone");
 
+const {
+  value: doctor_ids,
+  errorMessage: doctor_idsError,
+  setValue: setDoctor_ids,
+} = useField<string[]>("doctor_ids");
+
 const fetchClinics = async () => {
   const response = await getAllClinic();
   clinics.value = response.data.clinics;
@@ -149,6 +169,7 @@ const editClinic = (row: ClinicItem) => {
   setName(row.name);
   setAddress(row.address);
   setPhone(row.phone);
+  setDoctor_ids(row.doctor_ids);
 };
 
 const deleteClinicFn = async (row: ClinicItem) => {
@@ -167,6 +188,7 @@ const onSubmit = async () => {
         name: name.value,
         address: address.value,
         phone: phone.value,
+        doctor_ids: doctor_ids.value,
       });
     } else {
       await updateClinic({
@@ -174,6 +196,7 @@ const onSubmit = async () => {
         name: name.value,
         address: address.value,
         phone: phone.value,
+        doctor_ids: doctor_ids.value,
       });
     }
 
@@ -189,8 +212,14 @@ const handleOk = () => {
 };
 const clinics = ref<ClinicItem[]>([]);
 
+const fetchDoctors = async () => {
+  const response = await getAllDoctors();
+  doctors.value = response.data.doctors;
+};
+
 onMounted(async () => {
   await fetchClinics();
+  await fetchDoctors();
 });
 </script>
 

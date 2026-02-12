@@ -5,6 +5,7 @@ export type ClinicItem = {
   name: string;
   address: string;
   phone: string;
+  doctor_ids: string[];
   created_at: string;
   updated_at: string;
 };
@@ -16,6 +17,7 @@ export type storeClinicRequest = {
   name: string;
   address: string;
   phone: string;
+  doctor_ids: string[];
 };
 
 export type updateClinicRequest = {
@@ -23,4 +25,5 @@ export type updateClinicRequest = {
   name: string;
   address: string;
   phone: string;
+  doctor_ids: string[];
 };
