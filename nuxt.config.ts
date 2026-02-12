@@ -18,4 +18,6 @@ export default defineNuxtConfig({
       apiBaseUrl: "http://127.0.0.1:8000/",
     },
   },
+
+  modules: ["@ant-design-vue/nuxt"],
 });

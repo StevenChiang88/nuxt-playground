@@ -46,29 +46,36 @@
     <form class="flex flex-col gap-2" @submit.prevent="onSubmit">
       <div class="flex gap-2 items-center">
         <label for="name">Name</label>
-        <input id="name" v-model="name" type="text" />
+        <a-input id="name" v-model:value="name" type="text" />
       </div>
       <p class="text-sm text-red-600">{{ nameError }}</p>
 
       <div class="flex gap-2 items-center">
         <label for="address">Address</label>
-        <input id="address" v-model="address" type="text" />
+        <a-input id="address" v-model:value="address" type="text" />
       </div>
       <p class="text-sm text-red-600">{{ addressError }}</p>
 
       <div class="flex gap-2 items-center">
         <label for="phone">Phone</label>
-        <input id="phone" v-model="phone" type="text" />
+        <a-input id="phone" v-model:value="phone" type="text" />
       </div>
       <p class="text-sm text-red-600">{{ phoneError }}</p>
 
       <div class="flex gap-2 items-center">
         <label for="doctor_ids">Doctors</label>
-        <select id="doctor_ids" v-model="doctor_ids" multiple>
-          <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">
-            {{ doctor.name }}
-          </option>
-        </select>
+        <a-select
+          v-model:value="doctor_ids"
+          mode="tags"
+          style="width: 100%"
+          placeholder="Tags Mode"
+          :options="
+            doctors.map((doctor) => ({
+              label: doctor.name,
+              value: doctor.id,
+            }))
+          "
+        ></a-select>
       </div>
     </form>
   </Modal>
@@ -169,7 +176,7 @@ const editClinic = (row: ClinicItem) => {
   setName(row.name);
   setAddress(row.address);
   setPhone(row.phone);
-  setDoctor_ids(row.doctor_ids);
+  setDoctor_ids(row.doctors.map((doctor) => doctor.id));
 };
 
 const deleteClinicFn = async (row: ClinicItem) => {
@@ -224,3 +231,4 @@ onMounted(async () => {
 </script>
 
 <style scoped></style>
+``

@@ -1,11 +1,12 @@
 import type { DefaultResponse } from "~/api/model/index";
+import type { DoctorItem } from "~/api/doctor/model";
 
 export type ClinicItem = {
   id: string;
   name: string;
   address: string;
   phone: string;
-  doctor_ids: string[];
+  doctors: DoctorItem[];
   created_at: string;
   updated_at: string;
 };
