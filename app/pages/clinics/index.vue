@@ -31,6 +31,14 @@
           >
             刪除
           </button>
+
+          <button
+            @click="openClinicDoctorModal(row)"
+            class="hover:underline"
+            type="button"
+          >
+            管理醫師
+          </button>
         </div>
       </template>
     </Table>
@@ -79,6 +87,12 @@
       </div>
     </form>
   </Modal>
+
+  <ClinicDoctorModal
+    v-if="clinicDoctorModalOpen"
+    :clinic-id="clinicId ?? '' as string"
+    @update:open="clinicDoctorModalOpen = $event"
+  />
 </template>
 
 <script setup lang="ts">
@@ -96,11 +110,13 @@ import {
 import type { storeClinicRequest } from "~/api/clinic/model";
 import { getAllDoctors } from "~/api/doctor/inedx";
 import type { DoctorItem } from "~/api/doctor/model";
+import ClinicDoctorModal from "./clinicDoctorModal.vue";
 
 const doctors = ref<DoctorItem[]>([]);
 const modalMode = ref<"create" | "edit">("create");
 const clinicId = ref<string | null>(null);
 const open = ref(false);
+const clinicDoctorModalOpen = ref(false);
 
 const validationSchema = object({
   name: string().required().min(5).max(255),
@@ -133,7 +149,7 @@ const columns: TableColumn[] = [
   { key: "phone", label: "電話" },
   { key: "created_at", label: "建立時間" },
   { key: "updated_at", label: "更新時間" },
-  { key: "actions", label: "操作", fixed: "right", class: "w-24" },
+  { key: "actions", label: "操作", fixed: "right", class: "w-40" },
 ];
 
 const {
@@ -222,6 +238,11 @@ const clinics = ref<ClinicItem[]>([]);
 const fetchDoctors = async () => {
   const response = await getAllDoctors();
   doctors.value = response.data.doctors;
+};
+
+const openClinicDoctorModal = (row: ClinicItem) => {
+  clinicDoctorModalOpen.value = true;
+  clinicId.value = row.id;
 };
 
 onMounted(async () => {

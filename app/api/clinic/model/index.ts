@@ -28,3 +28,26 @@ export type updateClinicRequest = {
   phone: string;
   doctor_ids: string[];
 };
+
+export type ScheduleItem = {
+  schedule_id: number;
+  clinic_doctor_id: number;
+  doctor_id: number;
+  doctor_name: string;
+  start_time: string;
+  end_time: string;
+  slot_minutes: number;
+  slots: string[];
+};
+export type DailyAvailabilityItem = {
+  date: string;
+  schedules: ScheduleItem[];
+};
+
+export interface MonthlyAvailabilityData {
+  days: DailyAvailabilityItem[];
+  month_end: string;
+  month_start: string;
+}
+export type MonthlyAvailabilityResponse =
+  DefaultResponse<MonthlyAvailabilityData>;

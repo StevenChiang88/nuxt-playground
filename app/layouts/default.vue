@@ -28,6 +28,18 @@ const routes = [
     path: "/doctors",
     name: "Doctors",
   },
+  {
+    path: "/schedule",
+    name: "Schedule",
+  },
+  {
+    path: "/appointment",
+    name: "Appointment",
+  },
+  {
+    path: "/myAppointment",
+    name: "MyAppointment",
+  }
 ];
 </script>
 

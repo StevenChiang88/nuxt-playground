@@ -19,19 +19,19 @@
         <slot name="footer">
           <button
             v-if="showCancel"
-            class="rounded border px-3 py-1.5"
+            class="rounded border px-3 py-1.5 cursor-pointer"
             type="button"
             @click="cancel"
           >
-            Cancel
+            取消
           </button>
           <button
             v-if="showOk"
-            class="rounded bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-700"
+            class="rounded bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-700 cursor-pointer"
             type="button"
             @click="ok"
           >
-            OK
+            確定
           </button>
         </slot>
       </footer>
